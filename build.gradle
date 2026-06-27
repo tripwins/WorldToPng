@@ -1,0 +1,57 @@
+// WorldToPng is split into a platform-neutral core and per-platform adapters so it can target
+// "anything" (Paper today, Fabric/Sponge/... later) rather than being tied to one server jar.
+//
+//   worldtopng-core   – rendering, palette and the 2D drawing API. No Minecraft dependencies.
+//   worldtopng-paper  – the Bukkit/Paper adapter that reads a live world.
+//
+// Shared configuration for every module lives here.
+
+subprojects {
+    apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
+
+    group = 'liltrip'
+    version = '1.0.0'
+
+    repositories {
+        mavenCentral()
+        maven {
+            name = "papermc-repo"
+            url = "https://repo.papermc.io/repository/maven-public/"
+        }
+    }
+
+    def targetJavaVersion = 21
+    java {
+        def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
+        if (JavaVersion.current() < javaVersion) {
+            toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+        }
+        withSourcesJar()
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = 'UTF-8'
+        options.release.set(targetJavaVersion)
+    }
+
+    dependencies {
+        testImplementation(platform("org.junit:junit-bom:5.11.3"))
+        testImplementation("org.junit.jupiter:junit-jupiter")
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                from components.java
+            }
+        }
+    }
+}

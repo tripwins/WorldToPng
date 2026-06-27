@@ -1,0 +1,10 @@
+// Paper/Bukkit adapter. Reads a live world via ChunkSnapshots and feeds the core renderer.
+
+dependencies {
+    // `api` so consumers of worldtopng-paper also see the core types (RenderedMap, MapCanvas, ...).
+    api project(':worldtopng-core')
+
+    // Provided by the server at runtime; never shipped in our artifact.
+    compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
+    testImplementation("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
+}

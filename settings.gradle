@@ -1,0 +1,3 @@
+rootProject.name = 'WorldToPng'
+
+include('worldtopng-core', 'worldtopng-paper')
