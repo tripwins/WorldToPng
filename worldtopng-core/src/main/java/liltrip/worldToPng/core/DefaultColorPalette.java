@@ -76,41 +76,42 @@ public final class DefaultColorPalette implements ColorPalette {
             }
         }
 
-        // Keyword heuristics, ordered so the more specific term wins.
-        if (path.contains("water") || path.contains("bubble_column")) return 0xFF3B5DC9;
-        if (path.contains("lava")) return 0xFFD45A12;
-        if (path.endsWith("_log") || path.endsWith("_wood")
-                || path.endsWith("_stem") || path.endsWith("_hyphae")) return 0xFF6E5638;
-        if (path.contains("planks")) return 0xFFB8945F;
-        if (path.contains("leaves") || path.contains("vine") || path.contains("moss")
-                || path.contains("sapling") || path.endsWith("_fern") || path.endsWith("grass")
-                || path.contains("bamboo") || path.contains("kelp") || path.contains("seagrass")
-                || path.contains("lily_pad") || path.contains("azalea")) return 0xFF59812F;
-        if (path.contains("deepslate")) return 0xFF4D4D52;
-        if (path.contains("blackstone") || path.contains("basalt") || path.contains("obsidian")) return 0xFF2A2630;
-        if (path.contains("terracotta")) return 0xFF9A5E45;
-        if (path.contains("netherrack") || path.contains("nether") || path.contains("crimson")) return 0xFF6E3637;
-        if (path.contains("warped")) return 0xFF2C7A6E;
-        if (path.contains("sandstone")) return 0xFFE6DCAA;
-        if (path.contains("red_sand")) return 0xFFBE6B2E;
-        if (path.contains("sand")) return 0xFFE0D6A2;
-        if (path.contains("ice")) return 0xFFA8C0F0;
-        if (path.contains("snow")) return 0xFFF0FAFF;
-        if (path.contains("dirt") || path.contains("mud") || path.contains("clay")
-                || path.contains("podzol") || path.contains("coarse") || path.contains("rooted")
-                || path.contains("farmland") || path.contains("mycelium")) return 0xFF8B6A47;
-        if (path.contains("gravel")) return 0xFF8A8782;
-        if (path.contains("copper")) return 0xFFC1714B;
-        if (path.contains("prismarine")) return 0xFF5F9387;
-        if (path.contains("quartz")) return 0xFFE6E1D9;
-        if (path.contains("wool") || path.contains("carpet")) return 0xFFDDDDDD;
-        if (path.contains("glass")) return 0xFFEFF6F8;
-        if (path.contains("brick")) return 0xFF9A5240;
-        if (path.contains("stone") || path.contains("cobble") || path.contains("andesite")
-                || path.contains("diorite") || path.contains("granite") || path.contains("tuff")
-                || path.contains("calcite")) return 0xFF7F7F7F;
-
-        return FALLBACK;
+        // Keyword heuristics: the first matching term wins, so more specific terms come first.
+        return switch (path) {
+            case String p when p.contains("water") || p.contains("bubble_column") -> 0xFF3B5DC9;
+            case String p when p.contains("lava") -> 0xFFD45A12;
+            case String p when p.endsWith("_log") || p.endsWith("_wood")
+                    || p.endsWith("_stem") || p.endsWith("_hyphae") -> 0xFF6E5638;
+            case String p when p.contains("planks") -> 0xFFB8945F;
+            case String p when p.contains("leaves") || p.contains("vine") || p.contains("moss")
+                    || p.contains("sapling") || p.endsWith("_fern") || p.endsWith("grass")
+                    || p.contains("bamboo") || p.contains("kelp") || p.contains("seagrass")
+                    || p.contains("lily_pad") || p.contains("azalea") -> 0xFF59812F;
+            case String p when p.contains("deepslate") -> 0xFF4D4D52;
+            case String p when p.contains("blackstone") || p.contains("basalt") || p.contains("obsidian") -> 0xFF2A2630;
+            case String p when p.contains("terracotta") -> 0xFF9A5E45;
+            case String p when p.contains("netherrack") || p.contains("nether") || p.contains("crimson") -> 0xFF6E3637;
+            case String p when p.contains("warped") -> 0xFF2C7A6E;
+            case String p when p.contains("sandstone") -> 0xFFE6DCAA;
+            case String p when p.contains("red_sand") -> 0xFFBE6B2E;
+            case String p when p.contains("sand") -> 0xFFE0D6A2;
+            case String p when p.contains("ice") -> 0xFFA8C0F0;
+            case String p when p.contains("snow") -> 0xFFF0FAFF;
+            case String p when p.contains("dirt") || p.contains("mud") || p.contains("clay")
+                    || p.contains("podzol") || p.contains("coarse") || p.contains("rooted")
+                    || p.contains("farmland") || p.contains("mycelium") -> 0xFF8B6A47;
+            case String p when p.contains("gravel") -> 0xFF8A8782;
+            case String p when p.contains("copper") -> 0xFFC1714B;
+            case String p when p.contains("prismarine") -> 0xFF5F9387;
+            case String p when p.contains("quartz") -> 0xFFE6E1D9;
+            case String p when p.contains("wool") || p.contains("carpet") -> 0xFFDDDDDD;
+            case String p when p.contains("glass") -> 0xFFEFF6F8;
+            case String p when p.contains("brick") -> 0xFF9A5240;
+            case String p when p.contains("stone") || p.contains("cobble") || p.contains("andesite")
+                    || p.contains("diorite") || p.contains("granite") || p.contains("tuff")
+                    || p.contains("calcite") -> 0xFF7F7F7F;
+            default -> FALLBACK;
+        };
     }
 
     private static Map<String, Integer> buildCurated() {
